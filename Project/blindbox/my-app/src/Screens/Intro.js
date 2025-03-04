@@ -1,45 +1,45 @@
 import { Image, Dimensions, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import Logo from '../../assets/favicon.png';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 const Intro = () => {
     const navigation = useNavigation();
 
     return (
-        <View style={styles.container}>
+        <LinearGradient colors={["#FF7E5F", "#FD3A69"]} style={styles.container}>
             <View style={styles.top}>
-                <Image source={Logo} alt="intro-image" />
+                <Image source={require('../../assets/favicon.png')} style={styles.introImg} resizeMode="contain" />
             </View>
             <View style={styles.bottom}>
-                <Text style={styles.title}>Get your own Stuffed Animal</Text>
-                <Text style={styles.subtitle}>Choose the right stuffed animal to have a good sleep</Text>
+                <Text style={styles.title}>Discover the Mystery!</Text>
+                <Text style={styles.subtitle}>Unbox surprises and collect your favorite items.</Text>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
-                    <Text style={styles.buttonText}>Get Started</Text>
+                    <Text style={styles.buttonText}>Start Now</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </LinearGradient>
     );
 };
+
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFFFFF',
-        height: height,
+        flex: 1,
     },
     top: {
-        height: height / 2,
+        height: height * 0.55,
         width: '100%',
         alignItems: "center",
         justifyContent: 'center',
-        padding: 30,
     },
     introImg: {
-        width: "100%",
-        height: "100%",
-        objectFit: "contain",
-        marginTop: -10,
+        width: 250,
+        height: 250,
+        borderRadius: 60,
+        borderWidth: 5,
+        borderColor: '#fff',
     },
     bottom: {
         flex: 1,
@@ -47,29 +47,35 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        color: 'black',
-        fontSize: 36,
-        fontWeight: '700',
+        color: '#fff',
+        fontSize: 38,
+        fontWeight: 'bold',
         textAlign: 'center',
     },
     subtitle: {
-        color: '#000',
+        color: '#fff',
+        fontSize: 18,
         textAlign: 'center',
-        marginTop: 20,
+        marginTop: 10,
     },
     button: {
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         width: '90%',
-        height: 50,
-        borderRadius: 50,
+        height: 55,
+        borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20,
+        marginTop: 25,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
     },
     buttonText: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#fff'
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#FD3A69',
     }
-})
+});
+
 export default Intro;

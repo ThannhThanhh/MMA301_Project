@@ -1,23 +1,32 @@
-import { View, Text, FlatList, Dimensions, StyleSheet, Image, Alert, TextInput } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import Header from '../Components/Header';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Carousel from 'react-native-reanimated-carousel';
-import { colors } from '../constants';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { ShoppingCartIcon } from 'react-native-heroicons/outline';
-import Loader from '../Components/Loader';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/orebiSlices';
-import Toast from 'react-native-toast-message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'react-native-axios';
-import { Picker } from '@react-native-picker/picker';
+import {
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  StyleSheet,
+  Image,
+  Alert,
+  TextInput,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import Header from "../Components/Header";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Carousel from "react-native-reanimated-carousel";
+import { colors } from "../constants";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { ShoppingCartIcon } from "react-native-heroicons/outline";
+import Loader from "../Components/Loader";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/orebiSlices";
+import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "react-native-axios";
+import { Picker } from "@react-native-picker/picker";
 
-const { height, width } = Dimensions.get('window');
-const bannerOne = require('../../assets/images/banner1.png');
-const bannerTwo = require('../../assets/images/banner2.png');
-const bannerThree = require('../../assets/images/banner3.png');
+const { height, width } = Dimensions.get("window");
+const bannerOne = require("../../assets/images/banner1.png");
+const bannerTwo = require("../../assets/images/banner2.png");
+const bannerThree = require("../../assets/images/banner3.png");
 
 const Home = () => {
   const navigation = useNavigation();
@@ -26,9 +35,9 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -46,12 +55,15 @@ const Home = () => {
       const fetchProducts = async () => {
         setIsLoading(true);
         try {
-          const response = await axios.get('http://192.168.1.16:9999/product/list', {
-            params: {
-              brand: selectedBrand || undefined,
-              name: debouncedSearchTerm || undefined,
-            },
-          });
+          const response = await axios.get(
+            "http://192.168.1.16:9999/product/list",
+            {
+              params: {
+                brand: selectedBrand || undefined,
+                name: debouncedSearchTerm || undefined,
+              },
+            }
+          );
           setProducts(response.data);
         } catch (error) {
           console.error("Error fetching products:", error);
@@ -62,7 +74,9 @@ const Home = () => {
 
       const fetchBrands = async () => {
         try {
-          const response = await axios.get('http://192.168.1.16:9999/product/brands');
+          const response = await axios.get(
+            "http://192.168.1.16:9999/product/brands"
+          );
           setBrands(["All Brands", ...response.data]);
         } catch (error) {
           console.error("Error fetching brands:", error);
@@ -70,7 +84,7 @@ const Home = () => {
       };
 
       const checkLoginStatus = async () => {
-        const token = await AsyncStorage.getItem('authToken');
+        const token = await AsyncStorage.getItem("authToken");
         setIsLoggedIn(!!token);
       };
 
@@ -86,10 +100,10 @@ const Home = () => {
 
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem('authToken');
+      await AsyncStorage.removeItem("authToken");
       setIsLoggedIn(false);
       Alert.alert("Logout Success", "You have been logged out.");
-      navigation.navigate('Login');
+      navigation.navigate("Login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -98,23 +112,33 @@ const Home = () => {
   const images = [bannerOne, bannerTwo, bannerThree];
 
   const RenderItem = ({ item }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.productView}
-      onPress={() => navigation.navigate('ProductDetails', { productId: item._id })}
+      onPress={() =>
+        navigation.navigate("ProductDetails", { productId: item._id })
+      }
     >
-      <Image 
-        source={{ uri: item.image }} 
-        style={styles.img} 
-      />
+      <Image source={{ uri: item.image }} style={styles.img} />
+      {/* <Image source={require('../../assets/images/sp1.png')} style={styles.img} /> */}
+      {/* <Image source={require('{item.image}')} style={styles.img} /> */}
+
       <View style={styles.textView}>
         <Text style={styles.productName}>{item.name}</Text>
         <View style={styles.priceCartContainer}>
           <Text style={styles.price}>${item.price}</Text>
           <TouchableOpacity
             onPress={() => {
-              dispatch(addToCart({ productId: item._id, name: item.name, price: item.price, image: item.image, quantity: 1 }));
+              dispatch(
+                addToCart({
+                  productId: item._id,
+                  name: item.name,
+                  price: item.price,
+                  image: item.image,
+                  quantity: 1,
+                })
+              );
               Toast.show({
-                type: 'success',
+                type: "success",
                 text1: `${item.name} added to cart successfully`,
               });
             }}
@@ -138,7 +162,9 @@ const Home = () => {
           <FlatList
             data={products}
             contentContainerStyle={styles.container}
-            keyExtractor={(item, index) => item._id ? item._id.toString() : index.toString()}
+            keyExtractor={(item, index) =>
+              item._id ? item._id.toString() : index.toString()
+            }
             renderItem={RenderItem}
             refreshing={refreshing}
             onRefresh={() => {
@@ -172,7 +198,9 @@ const Home = () => {
                   />
                   <View style={styles.dropdownContainer}>
                     <Picker
-                      selectedValue={selectedBrand === "" ? "All Brands" : selectedBrand}
+                      selectedValue={
+                        selectedBrand === "" ? "All Brands" : selectedBrand
+                      }
                       onValueChange={handleBrandChange}
                       style={styles.dropdown}
                       mode="dropdown"
@@ -187,7 +215,9 @@ const Home = () => {
                 {/* Nếu không có sản phẩm, hiển thị thông báo */}
                 {products.length === 0 && (
                   <View style={styles.noProductsContainer}>
-                    <Text style={styles.noProductsText}>Không tìm thấy sản phẩm nào</Text>
+                    <Text style={styles.noProductsText}>
+                    No products found
+                    </Text>
                   </View>
                 )}
               </View>
@@ -201,12 +231,12 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    paddingBottom: 200
+    backgroundColor: "white",
+    paddingBottom: 200,
   },
   noProductsContainer: {
     marginTop: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   noProductsText: {
     fontSize: 18,
@@ -217,65 +247,69 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   filterContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 15,
     marginBottom: 10,
   },
   searchInput: {
     flex: 1,
-    height: 40,
+    height: 45,
     borderWidth: 1,
     borderColor: colors.lightText,
     borderRadius: 8,
     paddingHorizontal: 10,
     marginRight: 10,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
   },
   dropdownContainer: {
-    width: 150,
-    backgroundColor: '#f8f9fa',
+    width: 180,
+    backgroundColor: "#f8f9fa",
     borderRadius: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   dropdown: {
-    height: 40,
+    height: 50,
   },
-  productView: {
-    width: 220,
+  productView: { 
+    width: 200,
     height: height / 3,
-    borderWidth: 0.5,
-    borderColor: colors.lightText,
-    margin: 5,
-    marginHorizontal: 10,
-    borderRadius: 6,
-    overflow: 'hidden',
-    position: 'relative',
-    justifyContent: 'space-between',
+    borderWidth: 0,
+    margin: 8,
+    marginHorizontal: 12,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "pink",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Android shadow
+    justifyContent: "space-between",
   },
   img: {
-    width: '95%',
-    height: '70%',
-    resizeMode: 'contain',
-    alignSelf: 'center',
+    width: "95%",
+    height: "70%",
+    resizeMode: "contain",
+    alignSelf: "center",
   },
   textView: {
     padding: 10,
   },
   productName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.textBlack,
   },
   priceCartContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginVertical: 5,
   },
   price: {
-    fontWeight: '700',
+    fontWeight: "700",
     color: colors.textBlack,
     fontSize: 12,
   },
@@ -286,9 +320,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   carouselImage: {
-    width: '100%',
+    width: "100%",
     height: 210,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
 });
 
