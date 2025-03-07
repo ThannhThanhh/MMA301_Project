@@ -18,7 +18,7 @@ const ManageProduct = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://192.168.1.16:9999/product/list');
+      const response = await axios.get('http://192.168.1.9:9999/product/list');
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -50,7 +50,7 @@ const ManageProduct = () => {
 
   const addProduct = async () => {
     try {
-      const response = await axios.post('http://192.168.1.16:9999/product/add', newProduct);
+      const response = await axios.post('http://192.168.1.9:9999/product/add', newProduct);
       if (response.data && response.data.product) {
         setProducts([...products, response.data.product]);
         Alert.alert("Success", "Product added successfully!");
@@ -66,7 +66,7 @@ const ManageProduct = () => {
 
   const editProduct = async () => {
     try {
-      const response = await axios.put(`http://192.168.1.16:9999/product/update/${selectedProduct._id}`, editedProduct);
+      const response = await axios.put(`http://192.168.1.9:9999/product/update/${selectedProduct._id}`, editedProduct);
       if (response.data) {
         setProducts(products.map((product) => (product._id === response.data._id ? response.data : product)));
         Alert.alert("Success", "Product edited successfully!");
@@ -100,7 +100,7 @@ const ManageProduct = () => {
 
   const deleteProduct = async (productId) => {
     try {
-      await axios.delete(`http://192.168.1.16:9999/product/delete/${productId}`);
+      await axios.delete(`http://192.168.1.9:9999/product/delete/${productId}`);
       setProducts(products.filter((product) => product._id !== productId));
     } catch (error) {
       console.error("Error deleting product:", error);

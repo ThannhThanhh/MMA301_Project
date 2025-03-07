@@ -17,7 +17,7 @@ const Cart = () => {
 
   return (
     <ImageBackground
-      source={require('../../assets/cartCover.png')}
+      source={require('../../assets/1.png')}
       style={styles.background}
     >
       <View style={styles.container}>
@@ -33,15 +33,15 @@ const Cart = () => {
               <View style={{ backgroundColor: colors.defaultWhite, padding: 20 }}>
                 <View style={styles.row}>
                   <Text style={styles.text}>Subtotal</Text>
-                  <Text style={styles.subtotal}>${subtotal.toFixed(2)}</Text>
+                  <Text style={styles.subtotal}>{subtotal.toFixed(3)} VND</Text>
                 </View>
                 <View style={styles.row}>
                   <Text style={styles.text}>Discount</Text>
-                  <Text style={styles.discount}>-${discount}</Text>
+                  <Text style={styles.discount}>-{discount.toFixed(3)} VND</Text>
                 </View>
                 <View style={[styles.row, { marginVertical: 5 }]}>
                   <Text style={styles.totalLabel}>Total</Text>
-                  <Text style={styles.total}>${total.toFixed(2)}</Text>
+                  <Text style={styles.total}>{total.toFixed(3)} VND</Text>
                 </View>
                 <TouchableOpacity onPress={() => Toast.show({
                   type: 'error',

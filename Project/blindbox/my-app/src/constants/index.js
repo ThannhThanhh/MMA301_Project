@@ -1,5 +1,5 @@
 export const colors ={
-    bgColor: '#0c0a09',
+    bgColor: '#FF4F7D',
     defaultWhite: '#ffffff',
     lightText: '#0f172a',
     textBlack: '#020617',

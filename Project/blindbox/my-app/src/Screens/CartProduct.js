@@ -20,11 +20,11 @@ const CartProduct = ({ item }) => {
             alignItems: 'center',
             justifyContent: 'space-between',
         }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', width: 180 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', width: 195}}>
                 <Image source={{ uri: item.image }} style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10 }}>
-                    <Text style={{ color: colors.textBlack, fontWeight: '700' }}>{item.name}</Text>
-                    <Text style={{ color: colors.textGray }}>Price: ${item.price}</Text>
+                    <Text style={{ color: colors.textBlack, fontWeight: '700', width: 130 }}>{item.name}</Text>
+                    <Text style={{ color: colors.textGray }}>Price: {item.price.toFixed(3)} VND</Text>
                 </View>
             </View>
             <View style={{
@@ -46,7 +46,7 @@ const CartProduct = ({ item }) => {
                     <PlusIcon size={16} color={colors.textBlack} />
                 </Pressable>
             </View>
-            <Text style={{ color: colors.textBlack, fontWeight: '800' }}>${totalPrice.toFixed(2)}</Text>
+            <Text style={{ color: colors.textBlack, fontWeight: '800' }}>{totalPrice.toFixed(3)} VND</Text>
             <Pressable onPress={() => dispatch(deleteProduct(item.productId))}>
                 <TrashIcon size={20} color={colors.textBlack} />
             </Pressable>

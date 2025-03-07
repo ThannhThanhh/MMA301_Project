@@ -141,7 +141,7 @@ userRouter.post('/forgot-password', async (req, res) => {
         },
     });
 
-    const resetLink = `http://192.168.1.16:9999/user/reset-password/${token}`;
+    const resetLink = `http://192.168.1.9:9999/user/reset-password/${token}`;
     await transporter.sendMail({
         to: email,
         subject: 'Password Reset',

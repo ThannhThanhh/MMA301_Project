@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Pressable, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Bars4Icon, ShoppingCartIcon } from 'react-native-heroicons/outline';
-import logo from '../../assets/fluffy.png';
+import logo from '../../assets/fluffy2.png';
 import { colors } from '../constants';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -35,7 +35,7 @@ const Header = () => {
     };
 
     return (
-        <SafeAreaView style={{ backgroundColor: '#fff' }}>
+        <SafeAreaView style={{ backgroundColor: '#FFC0CB' }}>
             <View style={styles.container}>
                 <Pressable onPress={() => navigation.openDrawer()}>
                     <Bars4Icon color={colors.textBlack} size={20} />
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
         color: colors.textBlack,
         fontSize: 16,
         fontWeight: '600',
-        marginLeft: 10,
+        marginLeft: 1,
+        marginRight: 25,
     },
 });
 

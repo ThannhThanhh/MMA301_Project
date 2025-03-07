@@ -19,7 +19,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('http://192.168.1.16:9999/user/register', {
+      const response = await axios.post('http://192.168.1.9:9999/user/register', {
         username,
         password,
         email,
@@ -50,7 +50,7 @@ const Signup = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../assets/signup.png')} 
+        source={require('../../assets/1.png')} 
         style={styles.backgroundImage}
         resizeMode="cover"
       >

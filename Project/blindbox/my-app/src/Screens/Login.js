@@ -13,7 +13,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://192.168.1.16:9999/user/login', {
+            const response = await fetch('http://192.168.1.9:9999/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const Login = () => {
     return (
         <View style={styles.container}>
             <ImageBackground
-                source={require('../../assets/login.png')}
+                source={require('../../assets/1.png')}
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >

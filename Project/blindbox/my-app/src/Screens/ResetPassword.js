@@ -16,7 +16,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await fetch('http://192.168.1.16:9999/user/reset-password', {
+            const response = await fetch('http://192.168.1.9:9999/user/reset-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

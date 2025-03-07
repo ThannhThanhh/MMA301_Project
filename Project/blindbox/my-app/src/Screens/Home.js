@@ -39,6 +39,11 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 4;
+
+  // Cắt danh sách sản phẩm dựa trên trang hiện tại
+  const displayedProducts = products.slice(0, currentPage * productsPerPage);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -56,7 +61,7 @@ const Home = () => {
         setIsLoading(true);
         try {
           const response = await axios.get(
-            "http://192.168.1.16:9999/product/list",
+            "http://192.168.1.9:9999/product/list",
             {
               params: {
                 brand: selectedBrand || undefined,
@@ -75,7 +80,7 @@ const Home = () => {
       const fetchBrands = async () => {
         try {
           const response = await axios.get(
-            "http://192.168.1.16:9999/product/brands"
+            "http://192.168.1.9:9999/product/brands"
           );
           setBrands(["All Brands", ...response.data]);
         } catch (error) {
@@ -119,13 +124,14 @@ const Home = () => {
       }
     >
       <Image source={{ uri: item.image }} style={styles.img} />
-      {/* <Image source={require('../../assets/images/sp1.png')} style={styles.img} /> */}
-      {/* <Image source={require('{item.image}')} style={styles.img} /> */}
 
       <View style={styles.textView}>
-        <Text style={styles.productName}>{item.name}</Text>
+        <Text style={styles.productName} numberOfLines={2} ellipsizeMode="tail">
+          {item.name}
+        </Text>
+
         <View style={styles.priceCartContainer}>
-          <Text style={styles.price}>${item.price}</Text>
+          <Text style={styles.price}>{item.price},000 VNĐ</Text>
           <TouchableOpacity
             onPress={() => {
               dispatch(
@@ -160,7 +166,7 @@ const Home = () => {
           <Loader title="Product is Loading..." />
         ) : (
           <FlatList
-            data={products}
+            data={displayedProducts}
             contentContainerStyle={styles.container}
             keyExtractor={(item, index) =>
               item._id ? item._id.toString() : index.toString()
@@ -172,6 +178,28 @@ const Home = () => {
               setTimeout(() => setRefreshing(false), 2000);
             }}
             numColumns={2}
+            ListFooterComponent={
+              displayedProducts.length < products.length || currentPage > 1 ? (
+                <View style={styles.footerButtons}>
+                  {displayedProducts.length < products.length && (
+                    <TouchableOpacity
+                      style={styles.loadMoreButton}
+                      onPress={() => setCurrentPage((prev) => prev + 1)}
+                    >
+                      <Text style={styles.loadMoreText}>Xem thêm</Text>
+                    </TouchableOpacity>
+                  )}
+                  {currentPage > 1 && (
+                    <TouchableOpacity
+                      style={styles.collapseButton}
+                      onPress={() => setCurrentPage(1)}
+                    >
+                      <Text style={styles.loadMoreText}>Thu gọn</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              ) : null
+            }
             ListHeaderComponent={
               <View>
                 <Carousel
@@ -215,9 +243,7 @@ const Home = () => {
                 {/* Nếu không có sản phẩm, hiển thị thông báo */}
                 {products.length === 0 && (
                   <View style={styles.noProductsContainer}>
-                    <Text style={styles.noProductsText}>
-                    No products found
-                    </Text>
+                    <Text style={styles.noProductsText}>No products found !</Text>
                   </View>
                 )}
               </View>
@@ -231,8 +257,8 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    paddingBottom: 200,
+    backgroundColor: "#B3E5FC",
+    paddingBottom: '100%',
   },
   noProductsContainer: {
     marginTop: 20,
@@ -243,8 +269,9 @@ const styles = StyleSheet.create({
     color: colors.lightText,
   },
   carouselContainer: {
-    height: 210,
+    height: 250,
     marginBottom: 10,
+    width: '100%',
   },
   filterContainer: {
     flexDirection: "row",
@@ -272,9 +299,9 @@ const styles = StyleSheet.create({
   dropdown: {
     height: 50,
   },
-  productView: { 
+  productView: {
     width: 200,
-    height: height / 3,
+    height: height / 2.5,
     borderWidth: 0,
     margin: 8,
     marginHorizontal: 12,
@@ -289,8 +316,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   img: {
-    width: "95%",
-    height: "70%",
+    width: "90%",
+    height: "66%",
     resizeMode: "contain",
     alignSelf: "center",
   },
@@ -298,9 +325,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   productName: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 11,
+    fontWeight: "750",
     color: colors.textBlack,
+    letterSpacing: 0.5,
+    lineHeight: 18,
   },
   priceCartContainer: {
     flexDirection: "row",
@@ -321,9 +350,36 @@ const styles = StyleSheet.create({
   },
   carouselImage: {
     width: "100%",
-    height: 210,
-    resizeMode: "cover",
+    height: "100%",
+    resizeMode: "contain",
   },
+  footerButtons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 20,
+  },
+  loadMoreButton: {
+    backgroundColor: "#3498db",
+    padding: 10,
+    borderRadius: 8,
+    alignItems: "center",
+    width: 120,
+    marginHorizontal: 10,
+  },
+  collapseButton: {
+    backgroundColor: "#e74c3c",
+    padding: 10,
+    borderRadius: 8,
+    alignItems: "center",
+    width: 120,
+    marginHorizontal: 10,
+  },
+  loadMoreText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
+    textAlign: "center",
+  },  
 });
 
 export default Home;

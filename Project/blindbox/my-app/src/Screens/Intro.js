@@ -9,13 +9,13 @@ const Intro = () => {
     const navigation = useNavigation();
 
     return (
-        <LinearGradient colors={["#FF7E5F", "#FD3A69"]} style={styles.container}>
+        <LinearGradient colors={["#FFC1CC", "#FF4F7D"]} style={styles.container}>
             <View style={styles.top}>
                 <Image source={require('../../assets/favicon.png')} style={styles.introImg} resizeMode="contain" />
             </View>
             <View style={styles.bottom}>
-                <Text style={styles.title}>Discover the Mystery!</Text>
-                <Text style={styles.subtitle}>Unbox surprises and collect your favorite items.</Text>
+                <Text style={styles.title}>Open the mystery box</Text>
+                <Text style={styles.subtitle}>Surprise awaits!</Text>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
                     <Text style={styles.buttonText}>Start Now</Text>
                 </TouchableOpacity>
@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     introImg: {
-        width: 250,
-        height: 250,
-        borderRadius: 60,
+        width: 270,
+        height: 270,
+        borderRadius: 120,
         borderWidth: 5,
         borderColor: '#fff',
     },
