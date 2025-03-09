@@ -124,11 +124,13 @@ userRouter.post("/change-password", async (req, res) => {
 // Forgot Password Route
 
 userRouter.post('/forgot-password', async (req, res) => {
+    console.log("Request received:", req.body);
     const { email } = req.body;
     const user = await db.Users.findOne({ email });
     if (!user) {
         return res.status(400).json({ message: 'User not found' });
     }
+    console.log("User found:", user.email);
     const token = crypto.randomBytes(32).toString('hex');
     user.resetToken = token;
     user.resetTokenExpiration = Date.now() + 3600000; 
@@ -142,6 +144,7 @@ userRouter.post('/forgot-password', async (req, res) => {
     });
 
     const resetLink = `http://192.168.1.9:9999/user/reset-password/${token}`;
+    console.log("Sending email to:", email);
     await transporter.sendMail({
         to: email,
         subject: 'Password Reset',

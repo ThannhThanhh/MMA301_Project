@@ -5,7 +5,7 @@ const httpErrors = require("http-errors");
 require("dotenv").config();
 
 const db = require("./models");
-const {ProductRouter} = require("./routes");
+const {ProductRouter, CartRouter, UserRouter, OrderRouter} = require("./routes");
 const app = express(); 
 
 
@@ -17,6 +17,9 @@ app.get("/", async (req, res, next) => {
 });
 //DInh tuyen them cac chuc nang thuc te
 app.use("/product", ProductRouter);
+app.use("/cart", CartRouter);
+app.use("/user", UserRouter);
+app.use("/order", OrderRouter);
 
 app.use(async (req, res, next) => {
     next(httpErrors.BadRequest("Error: Bad Request"));

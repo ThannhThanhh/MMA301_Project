@@ -76,7 +76,7 @@ const ProductDetails = () => {
                 dispatch(addToCart({ ...product, quantity: 1 }));
                 Toast.show({
                   type: "success",
-                  text1: `${product.name} added to cart successfully`,
+                  text1: `Added to cart successfully`,
                 });
               }}
               style={{

@@ -202,6 +202,16 @@ const Home = () => {
             }
             ListHeaderComponent={
               <View>
+                {/* Search and Brand Filter */}
+                <View style={styles.filterContainer}>
+                  <TextInput
+                    style={styles.searchInput}
+                    placeholder="Search by name..."
+                    value={searchTerm}
+                    onChangeText={setSearchTerm}
+                  />
+                </View>
+
                 <Carousel
                   loop
                   width={width}
@@ -215,35 +225,27 @@ const Home = () => {
                     </View>
                   )}
                 />
-
-                {/* Search and Brand Filter */}
-                <View style={styles.filterContainer}>
-                  <TextInput
-                    style={styles.searchInput}
-                    placeholder="Search by name..."
-                    value={searchTerm}
-                    onChangeText={setSearchTerm}
-                  />
-                  <View style={styles.dropdownContainer}>
-                    <Picker
-                      selectedValue={
-                        selectedBrand === "" ? "All Brands" : selectedBrand
-                      }
-                      onValueChange={handleBrandChange}
-                      style={styles.dropdown}
-                      mode="dropdown"
-                    >
-                      {brands.map((brand) => (
-                        <Picker.Item key={brand} label={brand} value={brand} />
-                      ))}
-                    </Picker>
-                  </View>
+                <View style={styles.dropdownContainer}>
+                  <Picker
+                    selectedValue={
+                      selectedBrand === "" ? "All Brands" : selectedBrand
+                    }
+                    onValueChange={handleBrandChange}
+                    style={styles.dropdown}
+                    mode="dropdown"
+                  >
+                    {brands.map((brand) => (
+                      <Picker.Item key={brand} label={brand} value={brand} />
+                    ))}
+                  </Picker>
                 </View>
 
                 {/* Nếu không có sản phẩm, hiển thị thông báo */}
                 {products.length === 0 && (
                   <View style={styles.noProductsContainer}>
-                    <Text style={styles.noProductsText}>No products found !</Text>
+                    <Text style={styles.noProductsText}>
+                      No products found !
+                    </Text>
                   </View>
                 )}
               </View>
@@ -258,7 +260,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#B3E5FC",
-    paddingBottom: '100%',
+    paddingBottom: "100%",
   },
   noProductsContainer: {
     marginTop: 20,
@@ -271,7 +273,7 @@ const styles = StyleSheet.create({
   carouselContainer: {
     height: 250,
     marginBottom: 10,
-    width: '100%',
+    width: "100%",
   },
   filterContainer: {
     flexDirection: "row",
@@ -279,6 +281,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 15,
     marginBottom: 10,
+    marginTop: 10,
   },
   searchInput: {
     flex: 1,
@@ -295,6 +298,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f9fa",
     borderRadius: 8,
     overflow: "hidden",
+    alignSelf: "flex-end",
+    marginRight: 15,
   },
   dropdown: {
     height: 50,
@@ -379,7 +384,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
     textAlign: "center",
-  },  
+  },
 });
 
 export default Home;
